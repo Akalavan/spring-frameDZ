@@ -11,7 +11,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "rent_car")
-@NoArgsConstructor
 @Getter
 @Setter
 public class CarJpaRelease {
@@ -21,4 +20,21 @@ public class CarJpaRelease {
     private int id;
     @Column(name = "name")
     private String name;
+
+    public CarJpaRelease() {
+    }
+
+    public CarJpaRelease(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
