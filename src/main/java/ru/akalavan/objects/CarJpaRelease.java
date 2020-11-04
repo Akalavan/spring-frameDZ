@@ -15,6 +15,8 @@ import javax.persistence.Table;
 @Setter
 public class CarJpaRelease {
 
+    public static String TYPE_NAME = "Машина";
+
     @Id
     @Column(name = "id", nullable = false)
     private int id;
@@ -31,6 +33,18 @@ public class CarJpaRelease {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
