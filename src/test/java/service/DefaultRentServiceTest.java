@@ -13,7 +13,7 @@ import ru.akalavan.jpa.CarRepository;
 import ru.akalavan.jpa.RentJpaRepository;
 import ru.akalavan.objects.CarJpaRelease;
 import ru.akalavan.objects.RentJpaRelease;
-import ru.akalavan.service.RentService;
+import ru.akalavan.service.impl.DefaultRentService;
 
 import java.util.Date;
 import java.util.Optional;
@@ -21,10 +21,10 @@ import java.util.Optional;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
-public class RentServiceTest {
+public class DefaultRentServiceTest {
 
     @Autowired
-    private RentService rentService;
+    private DefaultRentService defaultRentService;
     @Autowired
     private RentJpaRepository rentJpaRepository;
     @Autowired
@@ -32,56 +32,56 @@ public class RentServiceTest {
 
     @Test
     public void findAll() {
-        rentService.findAllRent();
+        defaultRentService.findAllRent();
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void findByNullId() {
-        rentService.findById(null);
+        defaultRentService.findById(null);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void findByIdCrashType() {
-        rentService.findById(new float[1]);
+        defaultRentService.findById(new float[1]);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void findByIdNotFound() {
-        rentService.findById(20);
+        defaultRentService.findById(20);
     }
 
     @Test
     public void findById() {
-        rentService.findById(2);
+        defaultRentService.findById(2);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void createNullRentException() {
-        rentService.create(null);
+        defaultRentService.create(null);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void createNullIdRentException() {
         RentJpaRelease rent = new RentJpaRelease();
-        rentService.create(rent);
+        defaultRentService.create(rent);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void createNullCarException() {
         RentJpaRelease rent = new RentJpaRelease(8, 2000, new Date(), new Date(), null);
-        rentService.create(rent);
+        defaultRentService.create(rent);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void createNullDateFromException() {
         RentJpaRelease rent = new RentJpaRelease(8, 2000, null, new Date(), new CarJpaRelease());
-        rentService.create(rent);
+        defaultRentService.create(rent);
     }
 
     @Test(expected = EntityAlreadyExistsException.class)
     public void createAlreadyRentException() {
         RentJpaRelease rent = new RentJpaRelease(1, 2000, new Date(), new Date(), new CarJpaRelease());
-        rentService.create(rent);
+        defaultRentService.create(rent);
     }
 
     @Test(expected = EntityConflictException.class)
@@ -89,7 +89,7 @@ public class RentServiceTest {
         Optional<CarJpaRelease> car = carRepository.findById(2);
         Assert.assertTrue(car.isPresent());
         RentJpaRelease rent = new RentJpaRelease(8, 200, new Date(), new Date(), car.get());
-        rentService.create(rent);
+        defaultRentService.create(rent);
     }
 
     @Test
@@ -97,15 +97,15 @@ public class RentServiceTest {
         Optional<CarJpaRelease> car = carRepository.findById(1);
         Assert.assertTrue(car.isPresent());
         RentJpaRelease rent = new RentJpaRelease(8, 200, new Date(), new Date(), car.get());
-        rentService.create(rent);
+        defaultRentService.create(rent);
         Optional<RentJpaRelease> rentTest = rentJpaRepository.findById(8L);
         Assert.assertTrue(rentTest.isPresent());
         Assert.assertEquals(rentTest.get().getId(), 8);
-        rentService.delete(rent.getId());
+        defaultRentService.delete(rent.getId());
     }
 
     @Test
     public void delete() {
-        rentService.delete(5);
+        defaultRentService.delete(5);
     }
 }

@@ -14,7 +14,7 @@ import ru.akalavan.exceptions.EntityIllegalArgumentException;
 import ru.akalavan.exceptions.EntityNotFoundException;
 import ru.akalavan.jpa.CarRepository;
 import ru.akalavan.objects.CarJpaRelease;
-import ru.akalavan.service.CarService;
+import ru.akalavan.service.impl.DefaultCarService;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,76 +22,76 @@ import java.util.Optional;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})
-public class CarServiceTest {
+public class DefaultCarServiceTest {
 
     @Autowired
-    private CarService carService;
+    private DefaultCarService defaultCarService;
     @Autowired
     private CarRepository carRepository;
 
     @Test
     public void findAll() {
-        List<CarJpaRelease> cars = carService.findAllCar();
+        List<CarJpaRelease> cars = defaultCarService.findAllCar();
         Assert.assertEquals(cars.size(), 2);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void findByNullId() {
-        carService.findById(null);
+        defaultCarService.findById(null);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void findByIdCrashType() {
-        carService.findById(new float[1]);
+        defaultCarService.findById(new float[1]);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void findByIdNotFound() {
-        carService.findById(3);
+        defaultCarService.findById(3);
     }
 
     @Test
     public void findById() {
-        carService.findById(2);
+        defaultCarService.findById(2);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void createNullCarException() {
-        carService.create(null);
+        defaultCarService.create(null);
     }
 
     @Test(expected = EntityIllegalArgumentException.class)
     public void createNullIdCarException() {
         CarJpaRelease car = new CarJpaRelease(0, "granta");
-        carService.create(car);
+        defaultCarService.create(car);
     }
 
     @Test(expected = EntityAlreadyExistsException.class)
     public void createAlreadyCarException() {
         CarJpaRelease car = new CarJpaRelease(1, "granta");
-        carService.create(car);
+        defaultCarService.create(car);
     }
 
     @Test
     public void create() {
         CarJpaRelease car = new CarJpaRelease(3, "granta");
-        carService.create(car);
+        defaultCarService.create(car);
         Optional<CarJpaRelease> carTest = carRepository.findById(3);
         Assert.assertTrue(carTest.isPresent());
         Assert.assertEquals(carTest.get().toString(), "granta");
-        carService.delete(car.getId());
+        defaultCarService.delete(car.getId());
     }
 
     @Test(expected = EntityHasDetailsException.class)
     public void deleteHasDetailsExceptions() {
-        carService.delete(2);
+        defaultCarService.delete(2);
     }
 
     @Test
     public void delete() {
         CarJpaRelease car = new CarJpaRelease(3, "granta");
-        carService.create(car);
-        carService.delete(3);
+        defaultCarService.create(car);
+        defaultCarService.delete(3);
     }
 
 
