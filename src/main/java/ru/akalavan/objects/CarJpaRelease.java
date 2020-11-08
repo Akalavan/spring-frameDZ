@@ -49,6 +49,9 @@ public class CarJpaRelease {
 
     @Override
     public String toString() {
-        return name;
+        return "CarJpaRelease{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

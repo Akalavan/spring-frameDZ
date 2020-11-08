@@ -2,6 +2,7 @@ package ru.akalavan.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.akalavan.annotation.Loggable;
 import ru.akalavan.exceptions.EntityAlreadyExistsException;
 import ru.akalavan.exceptions.EntityHasDetailsException;
 import ru.akalavan.exceptions.EntityIllegalArgumentException;
@@ -30,6 +31,7 @@ public class DefaultCarService implements CarService {
         return carRepository.findAll();
     }
 
+    @Loggable
     public CarJpaRelease findById(Object id){
         Optional<CarJpaRelease> car;
         if (id == null)
