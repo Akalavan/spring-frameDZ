@@ -35,7 +35,7 @@ public class CarRepositoryTest {
     public void findCarByName() {
         List<CarJpaRelease> cars = carRepository.findByName("polo_test");
         Assert.assertNotNull(cars);
-        Assert.assertEquals(cars.get(0).toString(), "polo_test");
+        Assert.assertEquals(cars.get(0).getName(), "polo_test");
     }
 
     @Test
@@ -51,7 +51,7 @@ public class CarRepositoryTest {
         carRepository.save(car);
         Optional<CarJpaRelease> carTest = carRepository.findById(3);
         Assert.assertNotNull(carTest);
-        Assert.assertEquals(carTest.get().toString(), "kaptur_test");
+        Assert.assertEquals(carTest.get().getName(), "kaptur_test");
     }
 
     @After

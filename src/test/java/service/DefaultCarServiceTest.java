@@ -78,7 +78,7 @@ public class DefaultCarServiceTest {
         defaultCarService.create(car);
         Optional<CarJpaRelease> carTest = carRepository.findById(3);
         Assert.assertTrue(carTest.isPresent());
-        Assert.assertEquals(carTest.get().toString(), "granta");
+        Assert.assertEquals(carTest.get().getName(), "granta");
         defaultCarService.delete(car.getId());
     }
 
